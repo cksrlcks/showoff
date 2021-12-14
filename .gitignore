@@ -1,0 +1,12 @@
+#package
+node_modules
+package-lock.json
+
+#service key
+.env
+
+#build
+build
+
+
+.DS_Store
