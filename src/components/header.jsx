@@ -1,11 +1,11 @@
 import React from "react";
 import LogoImg from "../assets/img/logo.svg";
 
-const Header = () => {
+const Header = ({title}) => {
     return (
         <header className="app_header">
             <div className="page_title">
-                <img src={LogoImg} alt="show off" />
+                {title ? title : <img src={LogoImg} alt="show off" />}                
             </div>
         </header>
     );
