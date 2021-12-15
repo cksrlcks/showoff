@@ -1,7 +1,7 @@
 import React from "react";
 import LogoImg from "../assets/img/logo.svg";
 
-const Header = ({ title, left, right }) => {
+const Header = ({ title }) => {
     return (
         <header className="app_header">
             {left && left}

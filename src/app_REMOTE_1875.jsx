@@ -4,16 +4,17 @@ import {
     BrowserRouter as Router,
     Route,
     Routes,
-    useNavigate,
+	useNavigate
 } from "react-router-dom";
 import Feeds from "./components/feeds";
-import My from "./components/my";
+import Header from "./components/header";
+import My from "./components/My";
 import Navigation from "./components/navigation";
 import Write from "./components/write";
-import Login from "./components/login";
+import Login from './components/login';
 const App = (props) => {
     return (
-        <Router>
+        <Router>            
             <div className="m_container">
                 <Routes>
                     <Route path="/" element={<Feeds />} />

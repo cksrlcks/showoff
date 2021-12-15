@@ -1,12 +1,13 @@
 import React from "react";
+
 import Header from "./header";
 
 const Feeds = () => {
     return (
-        <>
+        <div>
             <Header />
-            <div className="m_conatiner">피드페이지</div>
-        </>
+            피드페이지
+        </div>
     );
 };
 

@@ -1,11 +1,7 @@
 import React from "react";
 
 const Login = () => {
-    return (
-        <div>
-            <button>로그인</button>
-        </div>
-    );
+    return <div>로그인페이지</div>;
 };
 
 export default Login;
