@@ -7,21 +7,18 @@ import {
     useNavigate,
 } from "react-router-dom";
 import Feeds from "./components/feeds";
-import My from "./components/my";
-import Navigation from "./components/navigation";
+import MyPage from "./components/myPage";
 import Write from "./components/write";
 import Login from "./components/login";
 const App = (props) => {
     return (
         <Router>
-            <div className="m_container">
-                <Routes>
-                    <Route path="/" element={<Feeds />} />
-                    <Route path="/write" element={<Write />} />
-                    <Route path="/my" element={<My />} />
-                    <Route path="/login" element={<Login />} />
-                </Routes>
-            </div>
+            <Routes>
+                <Route path="/" element={<Feeds />} />
+                <Route path="/write" element={<Write />} />
+                <Route path="/my" element={<MyPage />} />
+                <Route path="/login" element={<Login />} />
+            </Routes>
         </Router>
     );
 };

@@ -1,14 +1,8 @@
 import React from "react";
-
-import Header from "./header";
+import Page from "./page";
 
 const Feeds = () => {
-    return (
-        <div>
-            <Header />
-            피드페이지
-        </div>
-    );
+    return <Page>피드페이지</Page>;
 };
 
 export default Feeds;
