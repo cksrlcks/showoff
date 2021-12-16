@@ -15,7 +15,7 @@ import Login from "./components/login";
 const App = ({ authService, postRepository }) => {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState({});
-
+    const [lastKey, setLastKey] = useState(null);
     useEffect(() => {
         //if (!user) return;
 
@@ -41,11 +41,18 @@ const App = ({ authService, postRepository }) => {
         postRepository.savePost(post);
     };
 
+    const loadMorePosts = () => {        
+        postRepository.loadMorePosts(newPosts => {
+            const updatedPosts = {...posts, ...newPosts}
+            setPosts(updatedPosts)
+        })
+    }
+
     return (
         <Router>
             <ScrollToTop />
             <Routes>
-                <Route path="/" element={<Feeds posts={posts} />} />
+                <Route path="/" element={<Feeds posts={posts} handleLoadMore={loadMorePosts}/>} />
                 <Route
                     path="/write"
                     element={<Write user={user} createPost={createPost} />}
