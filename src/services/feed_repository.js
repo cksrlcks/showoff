@@ -6,7 +6,7 @@ import {
     off,
     orderByKey,
     query,
-    limit
+    limitToLast
 } from "firebase/database";
 
 class PostRepository {
@@ -19,13 +19,11 @@ class PostRepository {
     }
 
     syncPosts(onUpdate) {
-        const postRef = query(
-            ref(this.db, "posts"),
-            orderByKey("reverseCreatedAt", "desc")
-        );
+        const postRef = query(ref(this.db, "posts"), limitToLast(5));
 
         onValue(postRef, snapshot => {
             const value = snapshot.val();
+            console.log(value);
             value && onUpdate(value);
         });
 

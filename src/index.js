@@ -12,8 +12,6 @@ import PostRepository from "./services/feed_repository";
 const authService = new AuthService();
 const postRepository = new PostRepository(firebaseApp);
 
-//authService.setPersistence();
-
 ReactDOM.render(
     <App authService={authService} postRepository={postRepository} />,
     document.getElementById("app")

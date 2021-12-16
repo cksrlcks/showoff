@@ -17,7 +17,7 @@ const App = ({ authService, postRepository }) => {
     const [posts, setPosts] = useState({});
 
     useEffect(() => {
-        if (!user) return;
+        //if (!user) return;
 
         const stopSync = postRepository.syncPosts(posts => {
             setPosts(posts);
@@ -33,11 +33,11 @@ const App = ({ authService, postRepository }) => {
     }, [authService, user]);
 
     const createPost = post => {
-        setPosts(posts => {
-            const updatedPosts = { ...posts };
-            updatedPosts[post.id] = post;
-            return updatedPosts;
-        });
+        // setPosts(posts => {
+        //     const updatedPosts = { ...posts };
+        //     updatedPosts[post.id] = post;
+        //     return updatedPosts;
+        // });
         postRepository.savePost(post);
     };
 
