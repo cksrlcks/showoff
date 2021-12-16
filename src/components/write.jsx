@@ -1,18 +1,47 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Page from "./page";
 
-const Write = ({ user }) => {
+const Write = ({ user, createPost }) => {
+    const formRef = useRef();
+    const textareaRef = useRef();
     const navigation = useNavigate();
+
+    const onSubmit = event => {
+        event.preventDefault();
+        const date = new Date();
+        const post = {
+            id: Date.now(),
+            userId: user.uid,
+            userName: user.displayName,
+            content: textareaRef.current.value || "",
+            createdAt: date.getTime(),
+            reverseCreatedAt: -date.getTime()
+        };
+        formRef.current.reset();
+        createPost(post);
+
+        navigation("/");
+    };
     return (
         <Page>
-            {!user ? (
-                <Link to="/login" className="cmm_btn">
-                    로그인을 해주세요
-                </Link>
-            ) : (
-                <div>작성페이지</div>
-            )}
+            <div className="app_inner">
+                {!user ? (
+                    <Link to="/login" className="cmm_btn">
+                        로그인을 해주세요
+                    </Link>
+                ) : (
+                    <form className="write_form" ref={formRef}>
+                        <textarea
+                            ref={textareaRef}
+                            placeholder="어디 한번 자랑해봐!"
+                        ></textarea>
+                        <button className="cmm_btn" onClick={onSubmit}>
+                            자랑하기
+                        </button>
+                    </form>
+                )}
+            </div>
         </Page>
     );
 };

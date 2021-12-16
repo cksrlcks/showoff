@@ -13,7 +13,7 @@ module.exports = {
     output: {
         path: paths.build,
         filename: "bundle.js", // or [name].bundle.js
-        publicPath: "auto", // defulat가 auto임
+        publicPath: "auto" // defulat가 auto임
     },
 
     plugins: [
@@ -25,38 +25,38 @@ module.exports = {
                     from: paths.public + "/assets",
                     to: "assets",
                     globOptions: {
-                        ignore: ["*.DS_Store"], //mac 메타데이터 파일 무시
+                        ignore: ["*.DS_Store"] //mac 메타데이터 파일 무시
                     },
-                    noErrorOnMissing: true,
+                    noErrorOnMissing: true
                 },
                 {
                     from: paths.public + "/robots.txt",
                     to: ".",
                     globOptions: {
-                        ignore: ["*.DS_Store"],
+                        ignore: ["*.DS_Store"]
                     },
-                    noErrorOnMissing: true,
-                },
-            ],
+                    noErrorOnMissing: true
+                }
+            ]
         }),
 
         new HtmlWebpackPlugin({
             template: paths.public + "/index.html",
-            filename: "index.html",
+            filename: "index.html"
         }),
 
         //전역변수 설정
         new DefinePlugin({
-            "process.env": JSON.stringify(dotenv.config().parsed),
-        }),
+            "process.env": JSON.stringify(dotenv.config().parsed)
+        })
     ],
 
     // import시 alias설정 (별명)
     resolve: {
         alias: {
-            "@components": path.resolve(__dirname, "../src/components"),
+            "@components": path.resolve(__dirname, "../src/components")
         },
-        extensions: [".jsx", ".js"],
+        extensions: [".jsx", ".js"]
     },
     module: {
         rules: [
@@ -74,41 +74,41 @@ module.exports = {
                                     targets: {
                                         browsers: [
                                             "last 2 versions",
-                                            "not ie <= 10",
-                                        ],
-                                    },
-                                },
-                            ],
+                                            "not ie <= 10"
+                                        ]
+                                    }
+                                }
+                            ]
                         ],
                         //새로운 스팩추가할때, 여기에추가
                         plugins: [
                             "@babel/plugin-transform-runtime",
                             "@babel/plugin-proposal-class-properties",
-                            "@babel/plugin-transform-modules-commonjs",
-                        ],
-                    },
-                },
+                            "@babel/plugin-transform-modules-commonjs"
+                        ]
+                    }
+                }
             },
             {
                 test: /\.(scss|css)$/,
-                use: ["style-loader", "css-loader", "sass-loader"],
+                use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
                 test: /\.(woff|woff2|ttf|eot)$/,
                 loader: "url-loader",
                 options: {
                     name: "share/fonts/[name].[ext]?[hash]",
-                    limit: 10000, // 10Kb
-                },
+                    limit: 10000 // 10Kb
+                }
             },
             {
                 test: /\.(ico|png|jpg|jpeg|gif|svg)$/,
                 loader: "url-loader",
                 options: {
                     name: "share/img/[name].[ext]?[hash]",
-                    limit: 10000, // 10Kb
-                },
-            },
-        ],
-    },
+                    limit: 10000 // 10Kb
+                }
+            }
+        ]
+    }
 };

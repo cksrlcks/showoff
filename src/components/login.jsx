@@ -11,9 +11,11 @@ const Login = ({ authService }) => {
     };
     return (
         <SubPage title="로그인">
-            <button className="cmm_btn" onClick={handleLogin}>
-                구글로 로그인
-            </button>
+            <div className="app_inner">
+                <button className="cmm_btn" onClick={handleLogin}>
+                    구글로 로그인
+                </button>
+            </div>
         </SubPage>
     );
 };
