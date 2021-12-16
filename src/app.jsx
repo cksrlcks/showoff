@@ -15,10 +15,9 @@ import Login from "./components/login";
 const App = ({ authService, postRepository }) => {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState({});
-    const [lastKey, setLastKey] = useState(null);
+
     useEffect(() => {
         //if (!user) return;
-
         const stopSync = postRepository.syncPosts(posts => {
             setPosts(posts);
         });
