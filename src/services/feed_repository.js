@@ -5,13 +5,19 @@ import {
     onValue,
     off,
     orderByKey,
+    orderByChild,
     query,
-    limitToLast
+    limitToLast,
+    startAt,
+    endAt,
+    startAfter,
+    limitToFirst
 } from "firebase/database";
 
 class PostRepository {
     constructor(app) {
         this.db = getDatabase(app);
+        this.lastKey = '';
     }
 
     savePost(post) {
@@ -19,12 +25,28 @@ class PostRepository {
     }
 
     syncPosts(onUpdate) {
-        const postRef = query(ref(this.db, "posts"), limitToLast(5));
+        const postRef = query(ref(this.db, "posts"),  orderByChild('reverseCreatedAt'), limitToFirst(2));
 
         onValue(postRef, snapshot => {
             const value = snapshot.val();
-            console.log(value);
-            value && onUpdate(value);
+            if(value){
+                onUpdate(value);
+                this.lastKey = -1 * Object.keys(value)[0]
+            } 
+        });
+
+        return () => off(postRef);
+    }
+
+    loadMorePosts(onUpdate){
+        const postRef = query(ref(this.db, "posts"), orderByChild('reverseCreatedAt'), startAfter(this.lastKey), limitToFirst(2));
+
+        onValue(postRef, snapshot => {
+            const value = snapshot.val();
+            if(value){
+                onUpdate(value);
+                this.lastKey = -1 * Object.keys(value)[0]
+            } 
         });
 
         return () => off(postRef);

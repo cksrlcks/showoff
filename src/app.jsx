@@ -18,7 +18,6 @@ const App = ({ authService, postRepository }) => {
 
     useEffect(() => {
         //if (!user) return;
-
         const stopSync = postRepository.syncPosts(posts => {
             setPosts(posts);
         });
@@ -41,11 +40,18 @@ const App = ({ authService, postRepository }) => {
         postRepository.savePost(post);
     };
 
+    const loadMorePosts = () => {        
+        postRepository.loadMorePosts(newPosts => {
+            const updatedPosts = {...posts, ...newPosts}
+            setPosts(updatedPosts)
+        })
+    }
+
     return (
         <Router>
             <ScrollToTop />
             <Routes>
-                <Route path="/" element={<Feeds posts={posts} />} />
+                <Route path="/" element={<Feeds posts={posts} handleLoadMore={loadMorePosts}/>} />
                 <Route
                     path="/write"
                     element={<Write user={user} createPost={createPost} />}
