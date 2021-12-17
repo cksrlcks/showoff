@@ -8,8 +8,6 @@ import "react-medium-image-zoom/dist/styles.css";
 import { firebaseApp } from "./services/firebase";
 import AuthService from "./services/auth_service";
 import PostRepository from "./services/feed_repository";
-import { firebaseConfig } from "./services/firebase";
-console.log(firebaseConfig);
 const authService = new AuthService();
 const postRepository = new PostRepository(firebaseApp);
 

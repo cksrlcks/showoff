@@ -15,11 +15,14 @@ import Login from "./components/login";
 const App = ({ authService, postRepository }) => {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         //if (!user) return;
+        setLoading(true);
         const stopSync = postRepository.syncPosts(posts => {
             setPosts(posts);
+            setLoading(false);
         });
 
         return () => stopSync();
@@ -40,18 +43,35 @@ const App = ({ authService, postRepository }) => {
         postRepository.savePost(post);
     };
 
-    const loadMorePosts = () => {        
-        postRepository.loadMorePosts(newPosts => {
-            const updatedPosts = {...posts, ...newPosts}
-            setPosts(updatedPosts)
-        })
-    }
+    const loadMorePosts = () => {
+        setLoading(true);
+        const stopSync = postRepository.loadMorePosts(newPosts => {
+            if (newPosts) {
+                const updatedPosts = { ...posts, ...newPosts };
+                setPosts(updatedPosts);
+                setLoading(false);
+            } else {
+                setLoading(false);
+            }
+        });
+
+        return () => stopSync();
+    };
 
     return (
         <Router>
             <ScrollToTop />
             <Routes>
-                <Route path="/" element={<Feeds posts={posts} handleLoadMore={loadMorePosts}/>} />
+                <Route
+                    path="/"
+                    element={
+                        <Feeds
+                            loading={loading}
+                            posts={posts}
+                            handleLoadMore={loadMorePosts}
+                        />
+                    }
+                />
                 <Route
                     path="/write"
                     element={<Write user={user} createPost={createPost} />}

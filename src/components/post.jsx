@@ -4,7 +4,7 @@ import moment from "moment";
 import { RiGhostFill } from "react-icons/ri";
 
 const Post = ({ post }) => {
-    const postedDate = moment(post.date).format("YYYY.MM.DD");
+    const postedDate = moment(post.createdAt).format("YYYY.MM.DD");
     return (
         <div className="feed_item">
             {/* <div className="feed_photo">
