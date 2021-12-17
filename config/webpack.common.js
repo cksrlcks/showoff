@@ -46,7 +46,7 @@ module.exports = {
             filename: "index.html"
         }),
 
-        new Dotenv()
+        new Dotenv({ systemVars: true })
 
         // //전역변수 설정
         // new DefinePlugin({
