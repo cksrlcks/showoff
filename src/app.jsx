@@ -33,11 +33,11 @@ const App = ({ authService, postRepository }) => {
     }, [authService, user]);
 
     const createPost = post => {
-        // setPosts(posts => {
-        //     const updatedPosts = { ...posts };
-        //     updatedPosts[post.id] = post;
-        //     return updatedPosts;
-        // });
+        setPosts(posts => {
+            const updatedPosts = { ...posts };
+            updatedPosts[post.id] = post;
+            return updatedPosts;
+        });
         postRepository.savePost(post);
     };
 
