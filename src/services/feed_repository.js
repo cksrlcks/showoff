@@ -17,7 +17,7 @@ import {
 class PostRepository {
     constructor(app) {
         this.db = getDatabase(app);
-        this.lastKey = '';
+        this.lastKey = "";
     }
 
     savePost(post) {
@@ -25,28 +25,37 @@ class PostRepository {
     }
 
     syncPosts(onUpdate) {
-        const postRef = query(ref(this.db, "posts"),  orderByChild('reverseCreatedAt'), limitToFirst(2));
+        const postRef = query(
+            ref(this.db, "posts"),
+            orderByChild("reverseCreatedAt"),
+            limitToFirst(5)
+        );
 
         onValue(postRef, snapshot => {
             const value = snapshot.val();
-            if(value){
+            if (value) {
                 onUpdate(value);
-                this.lastKey = -1 * Object.keys(value)[0]
-            } 
+                this.lastKey = -1 * Object.keys(value)[0];
+            }
         });
 
         return () => off(postRef);
     }
 
-    loadMorePosts(onUpdate){
-        const postRef = query(ref(this.db, "posts"), orderByChild('reverseCreatedAt'), startAfter(this.lastKey), limitToFirst(2));
+    loadMorePosts(onUpdate) {
+        const postRef = query(
+            ref(this.db, "posts"),
+            orderByChild("reverseCreatedAt"),
+            startAfter(this.lastKey),
+            limitToFirst(4)
+        );
 
         onValue(postRef, snapshot => {
             const value = snapshot.val();
-            if(value){
+            if (value) {
                 onUpdate(value);
-                this.lastKey = -1 * Object.keys(value)[0]
-            } 
+                this.lastKey = -1 * Object.keys(value)[0];
+            }
         });
 
         return () => off(postRef);
