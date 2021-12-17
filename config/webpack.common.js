@@ -1,6 +1,5 @@
 const path = require("path");
-//const dotenv = require("dotenv");
-const Dotenv = require("dotenv-webpack");
+const dotenv = require("dotenv");
 const { DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -46,12 +45,10 @@ module.exports = {
             filename: "index.html"
         }),
 
-        new Dotenv({ systemVars: true })
-
-        // //전역변수 설정
-        // new DefinePlugin({
-        //     "process.env": JSON.stringify(dotenv.config().parsed)
-        // })
+        //전역변수 설정
+        new DefinePlugin({
+            "process.env": JSON.stringify(dotenv.config().parsed)
+        })
     ],
 
     // import시 alias설정 (별명)
