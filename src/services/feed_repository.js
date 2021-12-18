@@ -4,14 +4,11 @@ import {
     ref,
     onValue,
     off,
-    orderByKey,
     orderByChild,
     query,
-    limitToLast,
-    startAt,
-    endAt,
     startAfter,
-    limitToFirst
+    limitToFirst,
+    remove
 } from "firebase/database";
 
 class PostRepository {
@@ -63,7 +60,9 @@ class PostRepository {
         return () => off(postRef);
     }
 
-    removePost() {}
+    removePost(postId) {
+        remove(ref(this.db, `/posts/${postId}`));
+    }
 }
 
 export default PostRepository;
