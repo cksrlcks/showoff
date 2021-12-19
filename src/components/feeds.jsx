@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import AskLogin from "./askLogin";
 import Page from "./page";
 import Post from "./post";
 import LoadingSpinner from "./loadingSpinner";
@@ -24,6 +25,7 @@ const Feeds = ({ posts, user, handleLoadMore, loading, handleDelete }) => {
     return (
         <Page>
             {loading && <LoadingSpinner />}
+            {!loading && !user && <AskLogin />}
             {Object.keys(posts)
                 .sort()
                 .reverse()
