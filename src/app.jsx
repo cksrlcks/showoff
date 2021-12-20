@@ -92,7 +92,7 @@ const App = ({ authService, postRepository }) => {
                 />
                 <Route
                     path="/my"
-                    element={<MyPage authService={authService} user={user} />}
+                    element={<MyPage authService={authService} user={user} postRepository={postRepository}/>}
                 />
                 <Route
                     path="/login"

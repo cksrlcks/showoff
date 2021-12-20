@@ -19,7 +19,7 @@ class PostRepository {
 
     savePost(post, userId) {
         set(ref(this.db, `/posts/${post.id}`), post);
-        set(ref(this.db, `/userPosts/${userId}`), post.id);
+        set(ref(this.db, `/userPosts/${userId}/${post.id}`), post.id);
     }
 
     syncPosts(onUpdate) {
@@ -34,7 +34,7 @@ class PostRepository {
             if (value) {
                 onUpdate(value);
                 this.lastKey = -1 * Object.keys(value)[0];
-            }else{
+            } else {
                 onUpdate(null);
             }
         });
@@ -66,7 +66,20 @@ class PostRepository {
     removePost(postId) {
         remove(ref(this.db, `/posts/${postId}`));
     }
-    
+
+    getUserData(userId, onUpdate) {
+        const postRef = query(ref(this.db, `userPosts/${userId}`));
+        onValue(postRef, snapshot => {
+            const value = snapshot.val();
+            if (value) {
+                onUpdate(value);
+            } else {
+                onUpdate(null);
+            }
+        });
+
+        return () => off(postRef);
+    }
 }
 
 export default PostRepository;

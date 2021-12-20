@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "./page";
 
-const MyPage = ({ authService, user }) => {
+const MyPage = ({ authService, user, postRepository }) => {
+    const [myPostsLength, setMyPostsLength] = useState(0);
     const handleLogout = () => {
         authService.logout();
     };
+
+    useEffect(() => {
+        if (!user) return;
+        const stopSync = postRepository.getUserData(user.uid, posts => {
+            if (posts) {
+                setMyPostsLength(Object.keys(posts).length);
+            }
+        });
+
+        return () => stopSync();
+    }, [postRepository, user]);
 
     return (
         <Page>
@@ -33,6 +45,8 @@ const MyPage = ({ authService, user }) => {
                         <button className="cmm_btn" onClick={handleLogout}>
                             로그아웃
                         </button>
+
+                        <div>내가 작성한 글 수 : {myPostsLength}</div>
                     </>
                 ) : (
                     <Link to="/login" className="cmm_btn">

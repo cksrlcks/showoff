@@ -32,7 +32,7 @@ const Post = ({ post, user, handleDelete }) => {
                     <RiGhostFill />
                     {post.userName}
                 </div>
-                <div class="meta">
+                <div className="meta">
                     {user && user.uid === post.userId && (
                         <button
                             type="button"
