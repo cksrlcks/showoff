@@ -14,28 +14,36 @@ import Login from "./components/login";
 
 const App = ({ authService, postRepository }) => {
     const [user, setUser] = useState(null);
+    const [myPosts, setMyPosts] = useState({});
     const [posts, setPosts] = useState({});
     const [loading, setLoading] = useState(true);
 
+    //Get All Posts
     useEffect(() => {
         //if (!user) return;
         setLoading(true);
         const stopSync = postRepository.syncPosts(posts => {
-            if(posts){
+            if (posts) {
                 setPosts(posts);
             }
-            
+
             setLoading(false);
         });
 
         return () => stopSync();
     }, [postRepository, user]);
 
+    //Get one user Posts
     useEffect(() => {
-        authService.onAuthChange(user => {
-            setUser(user);
+        if (!user) return;
+        const stopSync = postRepository.getUserData(user.uid, posts => {
+            if (posts) {
+                setMyPosts(posts);
+            }
         });
-    }, [authService, user]);
+
+        return () => stopSync();
+    }, [postRepository, user]);
 
     const createPost = (post, userId) => {
         setPosts(posts => {
@@ -61,13 +69,35 @@ const App = ({ authService, postRepository }) => {
         return () => stopSync();
     };
 
-    const deletePost = postId => {
+    const deletePost = (postId, userId) => {
         setPosts(posts => {
             const updatedPosts = { ...posts };
             delete updatedPosts[postId];
             return updatedPosts;
         });
-        postRepository.removePost(postId);
+
+        setMyPosts(posts => {
+            const updatedPosts = { ...posts };
+            delete updatedPosts[postId];
+            return updatedPosts;
+        });
+
+        postRepository.removePost(postId, userId);
+    };
+
+    //Auth
+    useEffect(() => {
+        authService.onAuthChange(user => {
+            setUser(user);
+        });
+    }, [authService, user]);
+
+    const handleLogOut = () => {
+        authService.logout();
+    };
+
+    const handleLogIn = callback => {
+        authService.login().then(() => callback());
     };
 
     return (
@@ -80,9 +110,10 @@ const App = ({ authService, postRepository }) => {
                         <Feeds
                             loading={loading}
                             user={user}
+                            myPosts={myPosts}
                             posts={posts}
-                            handleLoadMore={loadMorePosts}
-                            handleDelete={deletePost}
+                            loadMorePosts={loadMorePosts}
+                            deletePost={deletePost}
                         />
                     }
                 />
@@ -92,11 +123,17 @@ const App = ({ authService, postRepository }) => {
                 />
                 <Route
                     path="/my"
-                    element={<MyPage authService={authService} user={user} postRepository={postRepository}/>}
+                    element={
+                        <MyPage
+                            handleLogOut={handleLogOut}
+                            user={user}
+                            myPosts={myPosts}
+                        />
+                    }
                 />
                 <Route
                     path="/login"
-                    element={<Login authService={authService} />}
+                    element={<Login handleLogIn={handleLogIn} />}
                 />
             </Routes>
         </Router>

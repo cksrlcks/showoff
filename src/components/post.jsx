@@ -3,10 +3,10 @@ import Zoom from "react-medium-image-zoom";
 import moment from "moment";
 import { RiGhostFill } from "react-icons/ri";
 
-const Post = ({ post, user, handleDelete }) => {
+const Post = ({ post, user, deletePost }) => {
     const postedDate = moment(post.createdAt).format("YYYY.MM.DD");
     const onDelete = () => {
-        handleDelete(post.id);
+        deletePost(post.id, user.uid);
     };
     return (
         <div className="feed_item">

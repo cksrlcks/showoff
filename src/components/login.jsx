@@ -4,17 +4,15 @@ import SubPage from "./subPage";
 import googleIcon from "../assets/img/icon_google.svg";
 import { RiSendPlaneFill } from "react-icons/ri";
 
-const Login = ({ authService }) => {
+const Login = ({ handleLogIn }) => {
     const navigation = useNavigate();
-    const handleLogin = () => {
-        authService.login().then(() => {
-            navigation(-1);
-        });
+    const login = async () => {
+        handleLogIn(() => navigation(-1));
     };
     return (
         <SubPage title="로그인">
             <div className="app_inner">
-                <button className="cmm_btn icon google" onClick={handleLogin}>
+                <button className="cmm_btn icon google" onClick={login}>
                     <img src={googleIcon} className="btn_icon" alt="google" />
                     구글로 로그인
                 </button>
