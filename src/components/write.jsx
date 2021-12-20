@@ -25,7 +25,7 @@ const Write = ({ user, createPost }) => {
             reverseCreatedAt: -date.getTime()
         };
         formRef.current.reset();
-        createPost(post);
+        createPost(post, user.uid);
 
         navigation("/");
     };

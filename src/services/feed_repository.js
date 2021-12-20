@@ -17,8 +17,9 @@ class PostRepository {
         this.lastKey = "";
     }
 
-    savePost(post) {
+    savePost(post, userId) {
         set(ref(this.db, `/posts/${post.id}`), post);
+        set(ref(this.db, `/userPosts/${userId}`), post.id);
     }
 
     syncPosts(onUpdate) {
@@ -33,6 +34,8 @@ class PostRepository {
             if (value) {
                 onUpdate(value);
                 this.lastKey = -1 * Object.keys(value)[0];
+            }else{
+                onUpdate(null);
             }
         });
 
@@ -63,6 +66,7 @@ class PostRepository {
     removePost(postId) {
         remove(ref(this.db, `/posts/${postId}`));
     }
+    
 }
 
 export default PostRepository;

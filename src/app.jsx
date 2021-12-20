@@ -21,7 +21,10 @@ const App = ({ authService, postRepository }) => {
         //if (!user) return;
         setLoading(true);
         const stopSync = postRepository.syncPosts(posts => {
-            setPosts(posts);
+            if(posts){
+                setPosts(posts);
+            }
+            
             setLoading(false);
         });
 
@@ -34,13 +37,13 @@ const App = ({ authService, postRepository }) => {
         });
     }, [authService, user]);
 
-    const createPost = post => {
+    const createPost = (post, userId) => {
         setPosts(posts => {
             const updatedPosts = { ...posts };
             updatedPosts[post.id] = post;
             return updatedPosts;
         });
-        postRepository.savePost(post);
+        postRepository.savePost(post, userId);
     };
 
     const loadMorePosts = () => {
