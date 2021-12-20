@@ -9,12 +9,18 @@ const Write = ({ user, createPost }) => {
 
     const onSubmit = event => {
         event.preventDefault();
+
+        if (!textareaRef.current.value) {
+            alert("최소 1자이상 써주세요~");
+            return;
+        }
+
         const date = new Date();
         const post = {
             id: Date.now(),
             userId: user.uid,
             userName: user.displayName,
-            content: textareaRef.current.value || "",
+            content: textareaRef.current.value,
             createdAt: date.getTime(),
             reverseCreatedAt: -date.getTime()
         };

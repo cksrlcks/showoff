@@ -58,6 +58,15 @@ const App = ({ authService, postRepository }) => {
         return () => stopSync();
     };
 
+    const deletePost = postId => {
+        setPosts(posts => {
+            const updatedPosts = { ...posts };
+            delete updatedPosts[postId];
+            return updatedPosts;
+        });
+        postRepository.removePost(postId);
+    };
+
     return (
         <Router>
             <ScrollToTop />
@@ -67,8 +76,10 @@ const App = ({ authService, postRepository }) => {
                     element={
                         <Feeds
                             loading={loading}
+                            user={user}
                             posts={posts}
                             handleLoadMore={loadMorePosts}
+                            handleDelete={deletePost}
                         />
                     }
                 />
