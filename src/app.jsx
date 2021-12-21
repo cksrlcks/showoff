@@ -129,7 +129,7 @@ const App = ({ authService, postRepository }) => {
                     element={<Login authService={authService} />}
                 />
                 <Route
-                    path="/signUp"
+                    path="/signup"
                     element={<SignUp authService={authService} />}
                 />
             </Routes>

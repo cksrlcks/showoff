@@ -77,7 +77,7 @@ const Login = ({ authService }) => {
                     구글로 로그인
                 </button>
 
-                <Link to="/signUp" className="text_btn">
+                <Link to="/signup" className="text_btn">
                     <span>아직 회원이 아니세요?</span>
                     <span className="emp">회원가입</span>
                 </Link>
