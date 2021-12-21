@@ -1,17 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import AskLogin from "./askLogin";
+import EmptyPosts from "./emptyPosts";
+import FirstWrite from "./firstWrite";
 import Page from "./page";
 import Post from "./post";
 import LoadingSpinner from "./loadingSpinner";
 
-const Feeds = ({ posts, user, handleLoadMore, loading, handleDelete }) => {
+const Feeds = ({
+    loading,
+    user,
+    myPosts,
+    posts,
+    loadMorePosts,
+    deletePost
+}) => {
     const handleScroll = () => {
         const scrollHeight = document.documentElement.scrollHeight;
         const scrollTop = document.documentElement.scrollTop;
         const clientHeight = document.documentElement.clientHeight;
 
         if (scrollTop + clientHeight >= scrollHeight && loading === false) {
-            handleLoadMore();
+            loadMorePosts();
         }
     };
 
@@ -26,6 +35,8 @@ const Feeds = ({ posts, user, handleLoadMore, loading, handleDelete }) => {
         <Page>
             {loading && <LoadingSpinner />}
             {!loading && !user && <AskLogin />}
+            {!Object.keys(posts).length && <EmptyPosts />}
+            {user && !Object.keys(myPosts).length && <FirstWrite user={user} />}
             {Object.keys(posts)
                 .sort()
                 .reverse()
@@ -35,7 +46,7 @@ const Feeds = ({ posts, user, handleLoadMore, loading, handleDelete }) => {
                             key={key}
                             post={posts[key]}
                             user={user}
-                            handleDelete={handleDelete}
+                            deletePost={deletePost}
                         />
                     );
                 })}

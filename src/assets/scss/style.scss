@@ -160,9 +160,12 @@
 }
 
 .user_info_box {
-    display: flex;
-    align-items: center;
     margin-bottom: 4em;
+    .user_profile {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2em;
+    }
     .user_pic {
         width: 6rem;
         height: 6rem;
@@ -173,6 +176,16 @@
         img {
             width: 100%;
             height: 100%;
+        }
+    }
+    .user_count {
+        display: flex;
+        align-items: center;
+        opacity: 0.5;
+        svg {
+            color: #e9981e;
+            opacity: 1;
+            margin-right: 1rem;
         }
     }
 
@@ -295,8 +308,11 @@
     width: 100%;
 }
 
-.ask_login {
+.notice_card {
     padding: 1rem;
+    & + & {
+        padding-top: 0;
+    }
 
     .box {
         padding: 2rem;

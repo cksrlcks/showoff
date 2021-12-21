@@ -63,8 +63,9 @@ class PostRepository {
         return () => off(postRef);
     }
 
-    removePost(postId) {
+    removePost(postId, userId) {
         remove(ref(this.db, `/posts/${postId}`));
+        remove(ref(this.db, `/userPosts/${userId}/${postId}`));
     }
 
     getUserData(userId, onUpdate) {
