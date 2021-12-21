@@ -11,6 +11,7 @@ import Feeds from "./components/feeds";
 import MyPage from "./components/myPage";
 import Write from "./components/write";
 import Login from "./components/login";
+import SignUp from "./components/signUp";
 
 const App = ({ authService, postRepository }) => {
     const [user, setUser] = useState(null);
@@ -21,10 +22,10 @@ const App = ({ authService, postRepository }) => {
         //if (!user) return;
         setLoading(true);
         const stopSync = postRepository.syncPosts(posts => {
-            if(posts){
+            if (posts) {
                 setPosts(posts);
             }
-            
+
             setLoading(false);
         });
 
@@ -92,11 +93,21 @@ const App = ({ authService, postRepository }) => {
                 />
                 <Route
                     path="/my"
-                    element={<MyPage authService={authService} user={user} postRepository={postRepository}/>}
+                    element={
+                        <MyPage
+                            authService={authService}
+                            user={user}
+                            postRepository={postRepository}
+                        />
+                    }
                 />
                 <Route
                     path="/login"
                     element={<Login authService={authService} />}
+                />
+                <Route
+                    path="/signUp"
+                    element={<SignUp authService={authService} />}
                 />
             </Routes>
         </Router>
