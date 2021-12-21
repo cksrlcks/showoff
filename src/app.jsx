@@ -93,14 +93,6 @@ const App = ({ authService, postRepository }) => {
         });
     }, [authService, user]);
 
-    const handleLogOut = () => {
-        authService.logout();
-    };
-
-    // const handleLogIn = callback => {
-    //     authService.login().then(() => callback());
-    // };
-
     return (
         <Router>
             <ScrollToTop />
@@ -126,7 +118,7 @@ const App = ({ authService, postRepository }) => {
                     path="/my"
                     element={
                         <MyPage
-                            handleLogOut={handleLogOut}
+                            authService={authService}
                             user={user}
                             myPosts={myPosts}
                         />

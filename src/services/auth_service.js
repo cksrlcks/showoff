@@ -5,24 +5,12 @@ import {
     setPersistence,
     browserSessionPersistence,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    updateProfile
 } from "firebase/auth";
-import {
-    getDatabase,
-    set,
-    ref,
-    onValue,
-    off,
-    orderByChild,
-    query,
-    startAfter,
-    limitToFirst,
-    remove
-} from "firebase/database";
 
 class AuthService {
-    constructor(app) {
-        this.db = getDatabase(app);
+    constructor() {
         this.firebaseAuth = getAuth();
         this.googleProvider = new GoogleAuthProvider();
         //this.githubProvider = new GithubAuthProvider();
@@ -33,12 +21,18 @@ class AuthService {
         });
     }
 
-    loginWithEmail(userData) {
-        return signInWithEmailAndPassword(
-            this.firebaseAuth,
-            userData.email,
-            userData.password
-        );
+    async loginWithEmail(userData, onLogin) {
+        try {
+            await signInWithEmailAndPassword(
+                this.firebaseAuth,
+                userData.email,
+                userData.password
+            );
+            return onLogin();
+        } catch (error) {
+            const errorMessage = this.getErrorMessage(error);
+            onLogin(errorMessage);
+        }
     }
 
     loginWithProvider(provider) {
@@ -61,30 +55,25 @@ class AuthService {
         this.firebaseAuth.signOut();
     }
 
-    signUp(userData, callback) {
-        console.log(userData);
-        createUserWithEmailAndPassword(
-            this.firebaseAuth,
-            userData.email,
-            userData.password
-        )
-            .then(userCredential => {
-                const user = userCredential.user;
-                const userDb = {
-                    id: user.uid,
-                    email: userData.email,
-                    displayName: userData.displayName || ""
-                };
-                this.setUserProfile(userDb).then(() => callback(user));
-            })
-            .catch(error => {
-                const errorMessage = this.getErrorMessage(error);
-                alert(errorMessage);
-            });
-    }
+    async signUp(userData, onSignUp) {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(
+                this.firebaseAuth,
+                userData.email,
+                userData.password
+            );
 
-    async setUserProfile(userDb) {
-        await set(ref(this.db, `/users/${userDb.id}`), userDb);
+            const user = userCredential.user;
+
+            await updateProfile(this.firebaseAuth.currentUser, {
+                displayName: userData.displayName || ""
+            });
+
+            onSignUp(user);
+        } catch (error) {
+            const errorMessage = this.getErrorMessage(error);
+            onSignUp(null, errorMessage);
+        }
     }
 
     onAuthChange(onUserChanged) {
@@ -93,20 +82,20 @@ class AuthService {
         });
     }
 
-    setPersistence() {
-        setPersistence(this.firebaseAuth, browserSessionPersistence)
-            .then(() => {
-                return signInWithPopup(this.firebaseAuth, this.googleProvider);
-            })
-            .catch(error => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-            });
+    async setPersistence() {
+        try {
+            await setPersistence(this.firebaseAuth, browserSessionPersistence);
+
+            return signInWithPopup(this.firebaseAuth, this.googleProvider);
+        } catch (error) {}
     }
 
     getErrorMessage(error) {
         switch (error.code) {
+            case "auth/wrong-password":
+                return "비밀번호가 틀렸습니다.";
+            case "auth/user-not-found":
+                return "등록된 이메일 아닙니다.";
             case "auth/email-already-in-use":
                 return "이미 사용중인 이메일입니다.";
             default:

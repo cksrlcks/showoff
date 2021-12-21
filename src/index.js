@@ -8,7 +8,7 @@ import "react-medium-image-zoom/dist/styles.css";
 import { firebaseApp } from "./services/firebase";
 import AuthService from "./services/auth_service";
 import PostRepository from "./services/feed_repository";
-const authService = new AuthService(firebaseApp);
+const authService = new AuthService();
 const postRepository = new PostRepository(firebaseApp);
 
 ReactDOM.render(

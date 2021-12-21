@@ -5,25 +5,21 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { useState } from "react/cjs/react.development";
 
 const SignUp = ({ authService }) => {
-    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [disable, setDisable] = useState(false);
     const emailRef = useRef();
     const nameRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
     const navigation = useNavigate();
 
-    const emailRule =
-        /^([0-9a-zA-Z_-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    //check user input
+    const emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     const passwordRule = /^[A-Za-z0-9]{6,12}$/;
-
     const checkUserInput = (userInputData, rule) => {
-        if (!userInputData.match(rule)) {
-            return false;
-        } else {
-            return true;
-        }
+        return userInputData.match(rule) != null;
     };
 
+    //form reset
     const formReset = () => {
         emailRef.current.value = "";
         nameRef.current.value = "";
@@ -32,7 +28,6 @@ const SignUp = ({ authService }) => {
     };
 
     const onSignUp = event => {
-        event.preventDefault();
         if (!emailRef.current.value) {
             alert("아이디를 입력해주세요");
             return;
@@ -52,7 +47,6 @@ const SignUp = ({ authService }) => {
             alert("비밀번호가 일치하지 않습니다. 다시 확인해주세요");
             return;
         }
-
         if (!checkUserInput(emailRef.current.value, emailRule)) {
             alert("올바른 이메일을 입력해주세요");
             return;
@@ -65,22 +59,22 @@ const SignUp = ({ authService }) => {
             return;
         }
 
-        setButtonDisabled(true);
+        setDisable(true);
 
         const userData = {
             email: emailRef.current.value,
             password: passwordRef.current.value,
             displayName: nameRef.current.value
         };
-
-        authService.signUp(userData, result => {
-            console.log(result);
+        authService.signUp(userData, (result, err) => {
             if (result) {
                 formReset();
                 alert("가입을 축하드립니다.");
-                setButtonDisabled(false);
                 navigation("/");
+            } else {
+                alert(err);
             }
+            setDisable(false);
         });
     };
 
@@ -113,9 +107,9 @@ const SignUp = ({ authService }) => {
                         />
                     </div>
                     <button
-                        className="cmm_btn icon"
+                        className="cmm_btn icon loading"
                         onClick={onSignUp}
-                        disabled={buttonDisabled}
+                        disabled={disable}
                     >
                         <RiSendPlaneFill className="btn_icon" />
                         이메일로 회원가입

@@ -3,7 +3,10 @@ import { RiFlashlightFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Page from "./page";
 
-const MyPage = ({ handleLogOut, user, myPosts }) => {
+const MyPage = ({ authService, user, myPosts }) => {
+    const logout = () => {
+        authService.logout();
+    };
     return (
         <Page>
             <div className="app_inner">
@@ -11,15 +14,6 @@ const MyPage = ({ handleLogOut, user, myPosts }) => {
                     <>
                         <div className="user_info_box">
                             <div className="user_profile">
-                                {user.photoURL && (
-                                    <figure className="user_pic">
-                                        <img
-                                            src={user.photoURL}
-                                            alt={`${user.displayName}의 프로필사진`}
-                                            referrerPolicy="no-referrer"
-                                        />
-                                    </figure>
-                                )}
                                 <div className="user_detail">
                                     <div className="user_name">
                                         {user.displayName}
@@ -37,7 +31,7 @@ const MyPage = ({ handleLogOut, user, myPosts }) => {
                             </div>
                         </div>
 
-                        <button className="cmm_btn" onClick={handleLogOut}>
+                        <button className="cmm_btn" onClick={logout}>
                             로그아웃
                         </button>
                     </>
