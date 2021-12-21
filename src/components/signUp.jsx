@@ -1,8 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SubPage from "./subPage";
 import { RiSendPlaneFill } from "react-icons/ri";
-import { useState } from "react/cjs/react.development";
 
 const SignUp = ({ authService }) => {
     const [disable, setDisable] = useState(false);
