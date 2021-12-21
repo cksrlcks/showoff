@@ -37,6 +37,14 @@ module.exports = {
                         ignore: ["*.DS_Store"]
                     },
                     noErrorOnMissing: true
+                },
+                {
+                    from: paths.public + "/_redirects",
+                    to: ".",
+                    globOptions: {
+                        ignore: ["*.DS_Store"]
+                    },
+                    noErrorOnMissing: true
                 }
             ]
         }),
