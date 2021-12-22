@@ -14,7 +14,7 @@ import Login from "./components/login";
 import SignUp from "./components/signUp";
 import ResetPassword from "./components/resetPassword";
 
-const App = ({ authService, postRepository }) => {
+const App = ({ authService, postRepository, imageUploader }) => {
     const [user, setUser] = useState(null);
     const [myPosts, setMyPosts] = useState({});
     const [posts, setPosts] = useState({});
@@ -113,7 +113,13 @@ const App = ({ authService, postRepository }) => {
                 />
                 <Route
                     path="/write"
-                    element={<Write user={user} createPost={createPost} />}
+                    element={
+                        <Write
+                            user={user}
+                            createPost={createPost}
+                            imageUploader={imageUploader}
+                        />
+                    }
                 />
                 <Route
                     path="/my"

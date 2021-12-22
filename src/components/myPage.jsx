@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { RiFlashlightFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Page from "./page";
+import Welcome from "./welcome";
 
 const MyPage = ({ authService, user, myPosts }) => {
     const logout = () => {
@@ -10,7 +11,9 @@ const MyPage = ({ authService, user, myPosts }) => {
     return (
         <Page>
             <div className="app_inner">
-                {user ? (
+                {!user ? (
+                    <Welcome />
+                ) : (
                     <>
                         <div className="user_info_box">
                             <div className="user_profile">
@@ -35,10 +38,6 @@ const MyPage = ({ authService, user, myPosts }) => {
                             로그아웃
                         </button>
                     </>
-                ) : (
-                    <Link to="/login" className="cmm_btn">
-                        로그인을 해주세요
-                    </Link>
                 )}
             </div>
         </Page>
