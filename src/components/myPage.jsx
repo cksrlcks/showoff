@@ -12,7 +12,9 @@ const MyPage = ({ authService, user, myPosts }) => {
     }, [user]);
 
     const logout = () => {
-        authService.logout();
+        authService.logout(() => {
+            navigation("/");
+        });
     };
 
     return (

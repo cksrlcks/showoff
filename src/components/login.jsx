@@ -6,6 +6,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 
 const Login = ({ authService }) => {
     const [disable, setDisable] = useState(false);
+    const [googleDisable, setGoogleDisable] = useState(false);
     const navigation = useNavigate();
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -39,9 +40,11 @@ const Login = ({ authService }) => {
     };
 
     const handleProviderLogin = provider => {
+        setGoogleDisable(true);
         authService
             .loginWithProvider(provider) //
             .then(() => {
+                setGoogleDisable(false);
                 navigation("/");
             });
     };
@@ -73,13 +76,14 @@ const Login = ({ authService }) => {
                         이메일로 로그인
                     </button>
                     <Link to="/reset" className="text_btn">
-                        <span>비밀번호를 잊으셧나요?</span>
+                        <span>비밀번호를 잊으셨나요?</span>
                         <span className="emp">재설정</span>
                     </Link>
                 </div>
                 <button
-                    className="cmm_btn icon google"
+                    className="cmm_btn icon google loading"
                     onClick={() => handleProviderLogin("google")}
+                    disabled={googleDisable}
                 >
                     <img src={googleIcon} className="btn_icon" alt="google" />
                     구글로 로그인
