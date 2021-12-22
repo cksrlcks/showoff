@@ -56,6 +56,10 @@ const Write = ({ user, createPost, imageUploader }) => {
         navigation("/");
     };
 
+    const handlePreventSubmit = flag => {
+        setLoading(flag);
+    };
+
     return (
         <Page>
             <div className="app_inner">
@@ -68,6 +72,7 @@ const Write = ({ user, createPost, imageUploader }) => {
                             onFileChange={onFileChange}
                             onFileDelete={onFileDelete}
                             imageUploader={imageUploader}
+                            handlePreventSubmit={handlePreventSubmit}
                         />
                         <textarea
                             ref={textareaRef}

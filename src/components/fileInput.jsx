@@ -1,7 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
+import imageCompression from "browser-image-compression";
 import { RiImageAddFill, RiCloseFill } from "react-icons/ri";
-
-const FileInput = ({ file, onFileChange, onFileDelete, imageUploader }) => {
+const FileInput = ({
+    file,
+    onFileChange,
+    onFileDelete,
+    handlePreventSubmit
+}) => {
+    const [loading, setLoading] = useState(false);
     const fileRef = useRef();
 
     const onClick = event => {
@@ -11,14 +17,32 @@ const FileInput = ({ file, onFileChange, onFileDelete, imageUploader }) => {
 
     const onChange = async event => {
         const file = event.target.files[0];
-        const fileSize = file.size || file.fileSize;
-        var limit = 512000;
-        if (fileSize > limit) {
-            alert("용량이 너무 큽니다. 500kb이내의 이미지만 올려주세요");
-            fileRef.value = "";
-            return;
+
+        //그냥 제한 :old version
+        // const fileSize = file.size || file.fileSize;
+        // var limit = 512000;
+        // if (fileSize > limit) {
+        //     alert("용량이 너무 큽니다. 500kb이내의 이미지만 올려주세요");
+        //     fileRef.value = "";
+        //     return;
+        // }
+
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true
+        };
+        handlePreventSubmit(true);
+        setLoading(true);
+        try {
+            const compressedFile = await imageCompression(file, options);
+
+            await onFileChange(compressedFile);
+        } catch (error) {
+            console.log(error);
         }
-        onFileChange(file);
+        handlePreventSubmit(false);
+        setLoading(false);
     };
 
     const onDelete = event => {
@@ -35,6 +59,8 @@ const FileInput = ({ file, onFileChange, onFileDelete, imageUploader }) => {
                     </button>
                     <img src={window.URL.createObjectURL(file)} alt="" />
                 </div>
+            ) : loading ? (
+                <div className="compressing">이미지를 압축중입니다.</div>
             ) : (
                 <div className="upload_box">
                     <input
