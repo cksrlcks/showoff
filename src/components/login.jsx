@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import SubPage from "./subPage";
 import googleIcon from "../assets/img/icon_google.svg";
@@ -9,6 +9,10 @@ const Login = ({ authService }) => {
     const navigation = useNavigate();
     const emailRef = useRef();
     const passwordRef = useRef();
+
+    useEffect(() => {
+        return () => setDisable(false);
+    }, []);
 
     const handleLogin = () => {
         if (!emailRef.current.value) {
@@ -25,12 +29,12 @@ const Login = ({ authService }) => {
             password: passwordRef.current.value
         };
         authService.loginWithEmail(userData, error => {
+            setDisable(false);
             if (!error) {
                 navigation(-1);
             } else {
                 alert(error);
             }
-            setDisable(false);
         });
     };
 
@@ -68,6 +72,10 @@ const Login = ({ authService }) => {
                         <RiSendPlaneFill className="btn_icon" />
                         이메일로 로그인
                     </button>
+                    <Link to="/reset" className="text_btn">
+                        <span>비밀번호를 잊으셧나요?</span>
+                        <span className="emp">재설정</span>
+                    </Link>
                 </div>
                 <button
                     className="cmm_btn icon google"

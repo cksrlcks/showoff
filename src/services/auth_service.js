@@ -6,6 +6,7 @@ import {
     browserSessionPersistence,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    sendPasswordResetEmail,
     updateProfile
 } from "firebase/auth";
 
@@ -28,7 +29,7 @@ class AuthService {
                 userData.email,
                 userData.password
             );
-            return onLogin();
+            onLogin();
         } catch (error) {
             const errorMessage = this.getErrorMessage(error);
             onLogin(errorMessage);
@@ -69,10 +70,20 @@ class AuthService {
                 displayName: userData.displayName || ""
             });
 
-            onSignUp(user);
+            onSignUp("success", user);
         } catch (error) {
             const errorMessage = this.getErrorMessage(error);
-            onSignUp(null, errorMessage);
+            onSignUp("fail", errorMessage);
+        }
+    }
+
+    async sendRestEmail(userEmail, onSend) {
+        try {
+            await sendPasswordResetEmail(this.firebaseAuth, userEmail);
+            onSend("success");
+        } catch (error) {
+            const errorMessage = this.getErrorMessage(error);
+            return onSend("fail", errorMessage);
         }
     }
 
@@ -98,6 +109,8 @@ class AuthService {
                 return "등록된 이메일 아닙니다.";
             case "auth/email-already-in-use":
                 return "이미 사용중인 이메일입니다.";
+            case "auth/invalid-email":
+                return "이메일주소가 잘못되었습니다.";
             default:
                 throw new Error(
                     `알수없는 에러입니다. = ${error.code} : ${error.errorMessage}`

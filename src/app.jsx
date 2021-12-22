@@ -12,6 +12,7 @@ import MyPage from "./components/myPage";
 import Write from "./components/write";
 import Login from "./components/login";
 import SignUp from "./components/signUp";
+import ResetPassword from "./components/resetPassword";
 
 const App = ({ authService, postRepository }) => {
     const [user, setUser] = useState(null);
@@ -131,6 +132,10 @@ const App = ({ authService, postRepository }) => {
                 <Route
                     path="/signup"
                     element={<SignUp authService={authService} />}
+                />
+                <Route
+                    path="/reset"
+                    element={<ResetPassword authService={authService} />}
                 />
             </Routes>
         </Router>

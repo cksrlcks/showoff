@@ -12,7 +12,8 @@ const SignUp = ({ authService }) => {
     const navigation = useNavigate();
 
     //check user input
-    const emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    const emailRule =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     const passwordRule = /^[A-Za-z0-9]{6,12}$/;
     const checkUserInput = (userInputData, rule) => {
         return userInputData.match(rule) != null;
@@ -65,22 +66,22 @@ const SignUp = ({ authService }) => {
             password: passwordRef.current.value,
             displayName: nameRef.current.value
         };
-        authService.signUp(userData, (result, err) => {
-            if (result) {
+        authService.signUp(userData, (res, err) => {
+            setDisable(false);
+            if (res == "success") {
                 formReset();
                 alert("가입을 축하드립니다.");
                 navigation("/");
             } else {
                 alert(err);
             }
-            setDisable(false);
         });
     };
 
     return (
         <SubPage title="회원가입">
             <div className="app_inner">
-                <div className="login_form signUp">
+                <div className="login_form alone">
                     <div className="form_input">
                         <input
                             type="text"
