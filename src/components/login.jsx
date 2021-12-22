@@ -31,7 +31,7 @@ const Login = ({ authService }) => {
         authService.loginWithEmail(userData, (res, err) => {
             setDisable(false);
             if (res == "success") {
-                navigation(-1);
+                navigation("/");
             } else {
                 alert(error);
             }
@@ -42,7 +42,7 @@ const Login = ({ authService }) => {
         authService
             .loginWithProvider(provider) //
             .then(() => {
-                navigation(-1);
+                navigation("/");
             });
     };
 

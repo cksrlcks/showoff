@@ -14,6 +14,10 @@ class ImageUploader {
 
         return await result.json();
     }
+
+    async delete(fileId) {
+        //console.log(fileId);
+    }
 }
 
 export default ImageUploader;

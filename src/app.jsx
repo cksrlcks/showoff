@@ -71,7 +71,7 @@ const App = ({ authService, postRepository, imageUploader }) => {
         return () => stopSync();
     };
 
-    const deletePost = (postId, userId) => {
+    const deletePost = (postId, userId, fileId) => {
         setPosts(posts => {
             const updatedPosts = { ...posts };
             delete updatedPosts[postId];
@@ -84,6 +84,7 @@ const App = ({ authService, postRepository, imageUploader }) => {
             return updatedPosts;
         });
 
+        fileId && imageUploader.delete(fileId);
         postRepository.removePost(postId, userId);
     };
 

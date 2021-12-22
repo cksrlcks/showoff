@@ -40,8 +40,10 @@ const Write = ({ user, createPost, imageUploader }) => {
         const uploaded = await uploadImg(file);
         const uploadedFileName = uploaded.original_filename;
         const uploadedFileURL = uploaded.secure_url;
+        const uploadedFileId = uploaded.public_id;
 
         const date = new Date();
+
         const post = {
             id: Date.now(),
             userId: user.uid,
@@ -50,7 +52,8 @@ const Write = ({ user, createPost, imageUploader }) => {
             createdAt: date.getTime(),
             reverseCreatedAt: -date.getTime(),
             fileName: uploadedFileName || "",
-            fileUrl: uploadedFileURL || ""
+            fileUrl: uploadedFileURL || "",
+            fileId: uploadedFileId || ""
         };
 
         console.log(post);
