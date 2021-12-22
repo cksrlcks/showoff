@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { RiFlashlightFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Page from "./page";
 import Welcome from "./welcome";
 
 const MyPage = ({ authService, user, myPosts }) => {
+    const navigation = useNavigate();
+
+    useEffect(() => {
+        if (!user) navigation("/welcome");
+    }, [user]);
+
     const logout = () => {
         authService.logout();
     };
+
     return (
         <Page>
             <div className="app_inner">

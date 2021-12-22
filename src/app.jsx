@@ -13,6 +13,7 @@ import Write from "./components/write";
 import Login from "./components/login";
 import SignUp from "./components/signUp";
 import ResetPassword from "./components/resetPassword";
+import Welcome from "./components/welcome";
 
 const App = ({ authService, postRepository, imageUploader }) => {
     const [user, setUser] = useState(null);
@@ -22,7 +23,6 @@ const App = ({ authService, postRepository, imageUploader }) => {
 
     //Get All Posts
     useEffect(() => {
-        //if (!user) return;
         setLoading(true);
         const stopSync = postRepository.syncPosts(posts => {
             if (posts) {
@@ -143,6 +143,7 @@ const App = ({ authService, postRepository, imageUploader }) => {
                     path="/reset"
                     element={<ResetPassword authService={authService} />}
                 />
+                <Route path="/welcome" element={<Welcome />} />
             </Routes>
         </Router>
     );

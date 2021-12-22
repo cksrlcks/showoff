@@ -29,10 +29,10 @@ class AuthService {
                 userData.email,
                 userData.password
             );
-            onLogin();
+            onLogin("success");
         } catch (error) {
             const errorMessage = this.getErrorMessage(error);
-            onLogin(errorMessage);
+            onLogin("error", errorMessage);
         }
     }
 

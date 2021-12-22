@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Page from "./page";
 import Welcome from "./welcome";
 import FileInput from "./fileInput";
@@ -10,6 +10,10 @@ const Write = ({ user, createPost, imageUploader }) => {
     const formRef = useRef();
     const textareaRef = useRef();
     const navigation = useNavigate();
+
+    useEffect(() => {
+        if (!user) navigation("/welcome");
+    }, [user]);
 
     const onFileChange = file => {
         setFile(file);

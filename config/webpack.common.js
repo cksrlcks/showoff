@@ -107,17 +107,13 @@ module.exports = {
                 test: /\.(woff|woff2|ttf|eot)$/,
                 loader: "url-loader",
                 options: {
-                    name: "share/fonts/[name].[ext]?[hash]",
+                    name: "assets/fonts/[name].[ext]?[hash]",
                     limit: 10000 // 10Kb
                 }
             },
             {
                 test: /\.(ico|png|jpg|jpeg|gif|svg)$/,
-                loader: "url-loader",
-                options: {
-                    name: "share/img/[name].[ext]?[hash]",
-                    limit: 10000 // 10Kb
-                }
+                type: "asset"
             }
         ]
     }

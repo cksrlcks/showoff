@@ -28,9 +28,9 @@ const Login = ({ authService }) => {
             email: emailRef.current.value,
             password: passwordRef.current.value
         };
-        authService.loginWithEmail(userData, error => {
+        authService.loginWithEmail(userData, (res, err) => {
             setDisable(false);
-            if (!error) {
+            if (res == "success") {
                 navigation(-1);
             } else {
                 alert(error);
