@@ -10,16 +10,27 @@ const Post = ({ post, user, deletePost }) => {
     };
     return (
         <div className="feed_item">
-            <div className="feed_photo">
-                <Zoom
-                    overlayBgColorStart={"rgba(0,0,0,0.6)"}
-                    overlayBgColorEnd={"rgba(0,0,0,0.6)"}
-                    zoomMargin={10}
-                    transitionDuration={0}
+            {post.fileUrl && (
+                <div
+                    className="feed_photo"
+                    style={{ backgroundImage: `url(${post.fileUrl})` }}
                 >
-                    <img src={post.fileUrl} alt={post.fileName} width="100%" />
-                </Zoom>
-            </div>
+                    <Zoom
+                        overlayBgColorStart={"rgba(0,0,0,0.6)"}
+                        overlayBgColorEnd={"rgba(0,0,0,0.6)"}
+                        zoomMargin={10}
+                        transitionDuration={0}
+                    >
+                        <div className="fake_frame">
+                            <img
+                                src={post.fileUrl}
+                                alt={post.fileName}
+                                width="100%"
+                            />
+                        </div>
+                    </Zoom>
+                </div>
+            )}
             <div className="feed_content">
                 <pre>{post.content}</pre>
             </div>

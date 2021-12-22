@@ -239,13 +239,22 @@
         max-height: 30rem;
         overflow: hidden;
         background: #333;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         img {
             width: 100%;
             height: auto;
         }
+
+        .fake_frame {
+            img {
+                opacity: 0;
+            }
+        }
     }
     .feed_content {
-        padding: 2rem 2rem 2rem;
+        padding: 2rem 1.2rem 2rem;
         pre {
             font-family: inherit;
             line-height: 1.4;
@@ -257,7 +266,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 2rem;
+        padding: 0 1.2rem;
 
         .user_name {
             opacity: 0.6;
