@@ -6,7 +6,6 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
-
 const paths = require("./paths");
 require("dotenv").config();
 module.exports = {
@@ -48,7 +47,7 @@ module.exports = {
                     noErrorOnMissing: true
                 },
                 {
-                    from: paths.public + "/manifest.js",
+                    from: paths.public + "/menifest.js",
                     to: ".",
                     globOptions: {
                         ignore: ["*.DS_Store"]
@@ -63,18 +62,18 @@ module.exports = {
             filename: "index.html"
         }),
 
+        //전역변수 설정
+        new Dotenv({
+            path: path.join(__dirname, ".env"),
+            systemvars: true
+        }),
+
         new WorkboxPlugin.GenerateSW({
             // these options encourage the ServiceWorkers to get in there fast
             // and not allow any straggling "old" SWs to hang around
             clientsClaim: true,
             skipWaiting: true,
             maximumFileSizeToCacheInBytes: 52428800
-        }),
-
-        //전역변수 설정
-        new Dotenv({
-            path: path.join(__dirname, ".env"),
-            systemvars: true
         })
     ],
 
@@ -122,19 +121,15 @@ module.exports = {
             },
             {
                 test: /\.(woff|woff2|ttf|eot)$/,
-                loader: "file-loader",
-                type: "asset",
+                loader: "url-loader",
                 options: {
-                    name: "assets/fonts/[name].[ext]?[hash]"
+                    name: "assets/fonts/[name].[ext]?[hash]",
+                    limit: 10000 // 10Kb
                 }
             },
             {
                 test: /\.(ico|png|jpg|jpeg|gif|svg)$/,
-                loader: "file-loader",
-                type: "asset",
-                options: {
-                    name: "assets/img/[name].[ext]?[hash]"
-                }
+                type: "asset"
             }
         ]
     }
