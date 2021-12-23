@@ -47,7 +47,7 @@ module.exports = {
                     noErrorOnMissing: true
                 },
                 {
-                    from: paths.public + "/menifest.js",
+                    from: paths.public + "/menifest.json",
                     to: ".",
                     globOptions: {
                         ignore: ["*.DS_Store"]
