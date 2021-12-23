@@ -1,11 +1,5 @@
 import React, { useEffect, useState, useContext, createContext } from "react";
-import {
-    Switch,
-    BrowserRouter as Router,
-    Route,
-    Routes,
-    useNavigate
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/scrollTop";
 import Feeds from "./components/feeds";
 import MyPage from "./components/myPage";
@@ -37,6 +31,7 @@ const App = ({ authService, postRepository, imageUploader }) => {
 
     //Get one user Posts
     useEffect(() => {
+        console.log("user changed");
         if (!user) return;
         const stopSync = postRepository.getUserData(user.uid, posts => {
             if (posts) {
@@ -95,6 +90,10 @@ const App = ({ authService, postRepository, imageUploader }) => {
         });
     }, [authService, user]);
 
+    const handleUser = user => {
+        setUser(user);
+    };
+
     return (
         <Router>
             <ScrollToTop />
@@ -134,7 +133,12 @@ const App = ({ authService, postRepository, imageUploader }) => {
                 />
                 <Route
                     path="/login"
-                    element={<Login authService={authService} />}
+                    element={
+                        <Login
+                            authService={authService}
+                            handleUser={handleUser}
+                        />
+                    }
                 />
                 <Route
                     path="/signup"

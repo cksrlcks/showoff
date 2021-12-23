@@ -12,14 +12,14 @@ module.exports = merge(common, {
     output: {
         path: paths.build,
         publicPath: "/",
-        filename: "static/js/[name].[contenthash].bundle.js",
+        filename: "assets/js/[name].[contenthash].bundle.js"
     },
     plugins: [
         // css압축
         new MiniCssExtractPlugin({
-            filename: "static/css/[name].[contenthash].css",
-            chunkFilename: "[id].css",
-        }),
+            filename: "assets/css/[name].[contenthash].css",
+            chunkFilename: "[id].css"
+        })
     ],
     module: {
         rules: [
@@ -31,13 +31,13 @@ module.exports = merge(common, {
                         loader: "css-loader",
                         options: {
                             importLoaders: 2,
-                            sourceMap: false,
-                        },
+                            sourceMap: false
+                        }
                     },
-                    "sass-loader",
-                ],
-            },
-        ],
+                    "sass-loader"
+                ]
+            }
+        ]
     },
     optimization: {
         minimize: true,
@@ -53,23 +53,23 @@ module.exports = merge(common, {
                 vendors: {
                     name: "react",
                     test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                    chunks: "all",
+                    chunks: "all"
                 },
                 styles: {
                     name: "styles",
                     test: /\.css$/,
                     chunks: "all",
-                    enforce: true,
-                },
-            },
+                    enforce: true
+                }
+            }
         },
         runtimeChunk: {
-            name: "runtime",
-        },
+            name: "runtime"
+        }
     },
     performance: {
         hints: false,
         maxEntrypointSize: 512000,
-        maxAssetSize: 512000,
-    },
+        maxAssetSize: 512000
+    }
 });

@@ -56,7 +56,6 @@ const Write = ({ user, createPost, imageUploader }) => {
             fileId: uploadedFileId || ""
         };
 
-        console.log(post);
         formRef.current.reset();
         createPost(post, user.uid);
         setLoading(false);

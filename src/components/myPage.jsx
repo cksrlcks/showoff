@@ -12,9 +12,8 @@ const MyPage = ({ authService, user, myPosts }) => {
     }, [user]);
 
     const logout = () => {
-        authService.logout(() => {
-            navigation("/");
-        });
+        authService.logout();
+        navigation("/");
     };
 
     return (

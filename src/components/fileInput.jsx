@@ -39,7 +39,7 @@ const FileInput = ({
 
             await onFileChange(compressedFile);
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
         handlePreventSubmit(false);
         setLoading(false);

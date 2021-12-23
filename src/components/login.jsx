@@ -4,7 +4,7 @@ import SubPage from "./subPage";
 import googleIcon from "../assets/img/icon_google.svg";
 import { RiSendPlaneFill } from "react-icons/ri";
 
-const Login = ({ authService }) => {
+const Login = ({ authService, handleUser }) => {
     const [disable, setDisable] = useState(false);
     const [googleDisable, setGoogleDisable] = useState(false);
     const navigation = useNavigate();
@@ -15,7 +15,7 @@ const Login = ({ authService }) => {
         return () => setDisable(false);
     }, []);
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (!emailRef.current.value) {
             alert("이메일을 입력해주세요");
             return;
@@ -24,29 +24,27 @@ const Login = ({ authService }) => {
             alert("비밀번호를 입력해주세요");
             return;
         }
-        setDisable(true);
         const userData = {
             email: emailRef.current.value,
             password: passwordRef.current.value
         };
-        authService.loginWithEmail(userData, (res, err) => {
-            setDisable(false);
-            if (res == "success") {
-                navigation("/");
-            } else {
-                alert(error);
-            }
-        });
+        setDisable(true);
+        const user = await authService.loginWithEmail(userData);
+        setDisable(false);
+        if (user) {
+            handleUser(user);
+            navigation("/");
+        }
     };
 
-    const handleProviderLogin = provider => {
+    const handleProviderLogin = async provider => {
         setGoogleDisable(true);
-        authService
-            .loginWithProvider(provider) //
-            .then(() => {
-                setGoogleDisable(false);
-                navigation("/");
-            });
+        const user = await authService.loginWithProvider(provider);
+        setGoogleDisable(false);
+        if (user) {
+            handleUser(user);
+            navigation("/");
+        }
     };
 
     return (
