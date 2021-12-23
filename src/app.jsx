@@ -31,7 +31,6 @@ const App = ({ authService, postRepository, imageUploader }) => {
 
     //Get one user Posts
     useEffect(() => {
-        console.log("user changed");
         if (!user) return;
         const stopSync = postRepository.getUserData(user.uid, posts => {
             if (posts) {
