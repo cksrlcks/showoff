@@ -1,12 +1,12 @@
 const path = require("path");
 const dotenv = require("dotenv");
 const Dotenv = require("dotenv-webpack");
-const { DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const paths = require("./paths");
-require("dotenv").config();
+dotenv.config();
+
 module.exports = {
     entry: [paths.src + "/index.js"],
 
@@ -104,15 +104,17 @@ module.exports = {
             },
             {
                 test: /\.(woff|woff2|ttf|eot)$/,
-                loader: "url-loader",
-                options: {
-                    name: "assets/fonts/[name].[ext]?[hash]",
-                    limit: 10000 // 10Kb
+                type: "asset/resource",
+                generator: {
+                    filename: "assets/fonts/[name][ext]"
                 }
             },
             {
                 test: /\.(ico|png|jpg|jpeg|gif|svg)$/,
-                type: "asset"
+                type: "asset/resource",
+                generator: {
+                    filename: "assets/img/[name][ext]"
+                }
             }
         ]
     }
