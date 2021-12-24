@@ -111,9 +111,14 @@ module.exports = {
             },
             {
                 test: /\.(ico|png|jpg|jpeg|gif|svg)$/,
-                type: "asset/resource",
+                type: "asset",
                 generator: {
                     filename: "assets/img/[name][ext]"
+                },
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024
+                    }
                 }
             }
         ]
