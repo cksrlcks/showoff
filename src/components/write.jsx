@@ -37,11 +37,7 @@ const Write = ({ user, createPost, imageUploader }) => {
 
         setLoading(true);
 
-        const uploaded = await uploadImg(file);
-        const uploadedFileName = uploaded.original_filename;
-        const uploadedFileURL = uploaded.secure_url;
-        const uploadedFileId = uploaded.public_id;
-
+        const uploaded = file ? await uploadImg(file) : null;
         const date = new Date();
 
         const post = {
@@ -51,9 +47,9 @@ const Write = ({ user, createPost, imageUploader }) => {
             content: textareaRef.current.value,
             createdAt: date.getTime(),
             reverseCreatedAt: -date.getTime(),
-            fileName: uploadedFileName || "",
-            fileUrl: uploadedFileURL || "",
-            fileId: uploadedFileId || ""
+            fileName: uploaded ? uploaded.original_filename : "",
+            fileUrl: uploaded ? uploaded.secure_url : "",
+            fileId: uploaded ? uploaded.public_id : ""
         };
 
         formRef.current.reset();
