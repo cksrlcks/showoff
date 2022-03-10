@@ -12,8 +12,7 @@ const SignUp = ({ authService }) => {
     const navigation = useNavigate();
 
     //check user input
-    const emailRule =
-        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    const emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     const passwordRule = /^[A-Za-z0-9]{6,12}$/;
     const checkUserInput = (userInputData, rule) => {
         return userInputData.match(rule) != null;

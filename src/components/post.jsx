@@ -5,9 +5,7 @@ import { RiGhostFill } from "react-icons/ri";
 
 const Post = ({ post, user, deletePost }) => {
     const postedDate = moment(post.createdAt).format("YYYY.MM.DD");
-    const onDelete = () => {
-        deletePost(post.id, user.uid, post.fileId);
-    };
+
     return (
         <div className="feed_item">
             {post.fileUrl && (
@@ -44,7 +42,7 @@ const Post = ({ post, user, deletePost }) => {
                         <button
                             type="button"
                             className="delete"
-                            onClick={onDelete}
+                            onClick={deletePost}
                         >
                             삭제
                         </button>

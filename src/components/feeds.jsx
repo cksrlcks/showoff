@@ -46,7 +46,12 @@ const Feeds = ({
                             key={key}
                             post={posts[key]}
                             user={user}
-                            deletePost={deletePost}
+                            deletePost={deletePost.bind(
+                                null,
+                                posts[key].id,
+                                user.uid,
+                                posts[key].fileId
+                            )}
                         />
                     );
                 })}

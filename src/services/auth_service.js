@@ -22,27 +22,23 @@ class AuthService {
         });
     }
 
-    async loginWithEmail(userData) {
+    async loginWithEmail(userData, onLogin) {
         try {
-            const userCredential = await signInWithEmailAndPassword(
+            await signInWithEmailAndPassword(
                 this.firebaseAuth,
                 userData.email,
                 userData.password
             );
-            return userCredential.user;
+            onLogin("success");
         } catch (error) {
             const errorMessage = this.getErrorMessage(error);
-            alert(errorMessage);
+            onLogin("error", errorMessage);
         }
     }
 
-    async loginWithProvider(provider) {
+    loginWithProvider(provider) {
         const authProvider = this.getProvider(provider);
-        const userCredential = await signInWithPopup(
-            this.firebaseAuth,
-            authProvider
-        );
-        return userCredential.user;
+        return signInWithPopup(this.firebaseAuth, authProvider);
     }
 
     getProvider(provider) {
@@ -56,8 +52,9 @@ class AuthService {
         }
     }
 
-    logout() {
+    logout(onLogOut) {
         this.firebaseAuth.signOut();
+        onLogOut();
     }
 
     async signUp(userData, onSignUp) {

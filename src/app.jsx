@@ -56,10 +56,8 @@ const App = ({ authService, postRepository, imageUploader }) => {
             if (newPosts) {
                 const updatedPosts = { ...posts, ...newPosts };
                 setPosts(updatedPosts);
-                setLoading(false);
-            } else {
-                setLoading(false);
             }
+            setLoading(false);
         });
 
         return () => stopSync();
