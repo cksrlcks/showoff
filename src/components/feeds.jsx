@@ -49,7 +49,7 @@ const Feeds = ({
                             deletePost={deletePost.bind(
                                 null,
                                 posts[key].id,
-                                user.uid,
+                                posts[key].userId,
                                 posts[key].fileId
                             )}
                         />

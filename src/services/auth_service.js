@@ -52,9 +52,9 @@ class AuthService {
         }
     }
 
-    logout(onLogOut) {
+    logout() {
         this.firebaseAuth.signOut();
-        onLogOut();
+        
     }
 
     async signUp(userData, onSignUp) {
