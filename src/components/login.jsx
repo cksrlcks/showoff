@@ -29,12 +29,15 @@ const Login = ({ authService, handleUser }) => {
             password: passwordRef.current.value
         };
         setDisable(true);
-        const user = await authService.loginWithEmail(userData);
-        setDisable(false);
-        if (user) {
-            handleUser(user);
-            navigation("/");
-        }
+        const user = await authService.loginWithEmail(userData, (res, err) => {
+            setDisable(false);
+            if (res == "success") {
+                handleUser(user);
+                navigation("/");
+            } else {
+                alert(err);
+            }
+        });
     };
 
     const handleProviderLogin = async provider => {

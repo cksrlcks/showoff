@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { RiFlashlightFill } from "react-icons/ri";
+import { RiFlashlightFill, RiStickyNoteFill } from "react-icons/ri";
 import { useNavigate, Link } from "react-router-dom";
 import Page from "./page";
 import Welcome from "./welcome";
@@ -18,12 +18,12 @@ const MyPage = ({ authService, user, myPosts }) => {
 
     return (
         <Page>
-            <div className="app_inner">
-                {!user ? (
-                    <Welcome />
-                ) : (
-                    <>
-                        <div className="user_info_box">
+            {!user ? (
+                <Welcome />
+            ) : (
+                <>
+                    <div className="user_info_box">
+                        <div className="app_inner">
                             <div className="user_profile">
                                 <div className="user_detail">
                                     <div className="user_name">
@@ -34,20 +34,33 @@ const MyPage = ({ authService, user, myPosts }) => {
                                     </div>
                                 </div>
                             </div>
-
                             <div className="user_count">
                                 <RiFlashlightFill />
                                 내가 작성한 글 수 :{" "}
                                 {Object.keys(myPosts).length}
                             </div>
                         </div>
-
-                        <button className="cmm_btn" onClick={logout}>
-                            로그아웃
-                        </button>
-                    </>
-                )}
-            </div>
+                    </div>
+                    <div className="mypage_menu_wrapper">
+                        <ul className="mypage_menu">
+                            <li>
+                                <div className="app_inner">
+                                    <Link to="/my/feeds/">
+                                        <RiStickyNoteFill /> 내가 작성한 글
+                                    </Link>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="mypage_footer">
+                        <div className="app_inner">
+                            <button className="cmm_btn" onClick={logout}>
+                                로그아웃
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
         </Page>
     );
 };

@@ -8,6 +8,7 @@ import Login from "./components/login";
 import SignUp from "./components/signUp";
 import ResetPassword from "./components/resetPassword";
 import Welcome from "./components/welcome";
+import MyFeeds from "./components/myFeeds";
 
 const App = ({ authService, postRepository, imageUploader }) => {
     const [user, setUser] = useState(null);
@@ -126,6 +127,12 @@ const App = ({ authService, postRepository, imageUploader }) => {
                             user={user}
                             myPosts={myPosts}
                         />
+                    }
+                />
+                <Route
+                    path="/my/feeds"
+                    element={
+                        <MyFeeds user={user} postRepository={postRepository} />
                     }
                 />
                 <Route

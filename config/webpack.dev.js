@@ -29,12 +29,12 @@ const devConfig = {
         hot: true,
         watchFiles: ["src/**/*.js"],
         proxy,
-        port: 3000,
+        port: 3000
     },
     plugins: [
         // HOT RELOADING
-        new Webpack.HotModuleReplacementPlugin(),
-    ],
+        new Webpack.HotModuleReplacementPlugin()
+    ]
 };
 
 module.exports = merge(common, devConfig);

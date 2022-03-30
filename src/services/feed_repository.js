@@ -8,7 +8,9 @@ import {
     query,
     startAfter,
     limitToFirst,
-    remove
+    remove,
+    orderByKey,
+    equalTo
 } from "firebase/database";
 
 class PostRepository {
@@ -76,6 +78,25 @@ class PostRepository {
                 onUpdate(value);
             } else {
                 onUpdate(null);
+            }
+        });
+
+        return () => off(postRef);
+    }
+
+    getUserPosts(userId, onUpdate) {
+        const postRef = query(
+            ref(this.db, "posts"),
+            orderByChild("userId"),
+            equalTo(userId)
+        );
+        onValue(postRef, snapshot => {
+            const value = snapshot.val();
+            if (value) {
+                console.log(value);
+                //onUpdate(value);
+            } else {
+                //onUpdate(null);
             }
         });
 

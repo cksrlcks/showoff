@@ -13,7 +13,7 @@ module.exports = {
     output: {
         path: paths.build,
         filename: "bundle.js", // or [name].bundle.js
-        publicPath: "auto" // defulat가 auto임
+        publicPath: "/" // defulat가 auto임
     },
 
     plugins: [
