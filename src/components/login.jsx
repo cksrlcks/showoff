@@ -4,7 +4,7 @@ import SubPage from "./subPage";
 import googleIcon from "../assets/img/icon_google.svg";
 import { RiSendPlaneFill } from "react-icons/ri";
 
-const Login = ({ authService, handleUser }) => {
+const Login = ({ authService }) => {
     const [disable, setDisable] = useState(false);
     const [googleDisable, setGoogleDisable] = useState(false);
     const navigation = useNavigate();
@@ -32,7 +32,7 @@ const Login = ({ authService, handleUser }) => {
         const user = await authService.loginWithEmail(userData, (res, err) => {
             setDisable(false);
             if (res == "success") {
-                handleUser(user);
+                //handleUser(user);
                 navigation("/");
             } else {
                 alert(err);
@@ -45,7 +45,7 @@ const Login = ({ authService, handleUser }) => {
         const user = await authService.loginWithProvider(provider);
         setGoogleDisable(false);
         if (user) {
-            handleUser(user);
+            //handleUser(user);
             navigation("/");
         }
     };

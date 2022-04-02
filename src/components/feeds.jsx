@@ -6,14 +6,9 @@ import Page from "./page";
 import Post from "./post";
 import LoadingSpinner from "./loadingSpinner";
 
-const Feeds = ({
-    loading,
-    user,
-    myPosts,
-    posts,
-    loadMorePosts,
-    deletePost
-}) => {
+const Feeds = ({ loading, user, posts, loadMorePosts, deletePost }) => {
+    const [emptyList, setEmptyList] = useState(false);
+    const [firstWrite, setFirstWrite] = useState(false);
     const handleScroll = () => {
         const scrollHeight = document.documentElement.scrollHeight;
         const scrollTop = document.documentElement.scrollTop;
@@ -31,12 +26,21 @@ const Feeds = ({
         };
     });
 
+    useEffect(() => {
+        Object.keys(posts).length ? setEmptyList(false) : setEmptyList(true);
+    }, [posts]);
+
+    useEffect(() => {
+        if (!user) return;
+        user.myPostsLength > 0 ? setFirstWrite(false) : setFirstWrite(true);
+    }, [user]);
+
     return (
         <Page>
             {loading && <LoadingSpinner />}
             {!loading && !user && <AskLogin />}
-            {!Object.keys(posts).length && <EmptyPosts />}
-            {user && !Object.keys(myPosts).length && <FirstWrite user={user} />}
+            {!loading && emptyList && <EmptyPosts />}
+            {!loading && firstWrite && <FirstWrite user={user} />}
             {Object.keys(posts)
                 .sort()
                 .reverse()

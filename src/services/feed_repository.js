@@ -28,7 +28,7 @@ class PostRepository {
         const postRef = query(
             ref(this.db, "posts"),
             orderByChild("reverseCreatedAt"),
-            limitToFirst(20)
+            limitToFirst(10)
         );
 
         onValue(postRef, snapshot => {
@@ -49,7 +49,7 @@ class PostRepository {
             ref(this.db, "posts"),
             orderByChild("reverseCreatedAt"),
             startAfter(this.lastKey),
-            limitToFirst(20)
+            limitToFirst(10)
         );
 
         onValue(postRef, snapshot => {
@@ -88,15 +88,15 @@ class PostRepository {
         const postRef = query(
             ref(this.db, "posts"),
             orderByChild("userId"),
-            equalTo(userId)
+            equalTo(userId),
+            limitToFirst(10)
         );
         onValue(postRef, snapshot => {
             const value = snapshot.val();
             if (value) {
-                console.log(value);
-                //onUpdate(value);
+                onUpdate(value);
             } else {
-                //onUpdate(null);
+                onUpdate(null);
             }
         });
 

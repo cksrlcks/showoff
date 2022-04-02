@@ -2,21 +2,36 @@ import React, { useEffect, useState, useContext, createContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/scrollTop";
 import Feeds from "./components/feeds";
-import MyPage from "./components/myPage";
+import MyPage from "./components/myPage/";
 import Write from "./components/write";
 import Login from "./components/login";
 import SignUp from "./components/signUp";
 import ResetPassword from "./components/resetPassword";
 import Welcome from "./components/welcome";
-import MyFeeds from "./components/myFeeds";
 
 const App = ({ authService, postRepository, imageUploader }) => {
     const [user, setUser] = useState(null);
-    const [myPosts, setMyPosts] = useState({});
     const [posts, setPosts] = useState({});
     const [loading, setLoading] = useState(true);
 
-    //Get All Posts
+    //Auth & my posts count
+    useEffect(() => {
+        let stopSync;
+        authService.onAuthChange(user => {
+            if (!user) {
+                setUser(null);
+                return;
+            }
+
+            stopSync = postRepository.getUserData(user.uid, posts => {
+                setUser({ ...user, myPostsLength: Object.keys(posts).length });
+            });
+        });
+
+        return () => stopSync();
+    }, [authService]);
+
+    //Get All users Posts
     useEffect(() => {
         setLoading(true);
         const stopSync = postRepository.syncPosts(posts => {
@@ -28,28 +43,7 @@ const App = ({ authService, postRepository, imageUploader }) => {
         });
 
         return () => stopSync();
-    }, [postRepository, user]);
-
-    //Get one user Posts
-    useEffect(() => {
-        if (!user) return;
-        const stopSync = postRepository.getUserData(user.uid, posts => {
-            if (posts) {
-                setMyPosts(posts);
-            }
-        });
-
-        return () => stopSync();
-    }, [postRepository, user]);
-
-    const createPost = (post, userId) => {
-        setPosts(posts => {
-            const updatedPosts = { ...posts };
-            updatedPosts[post.id] = post;
-            return updatedPosts;
-        });
-        postRepository.savePost(post, userId);
-    };
+    }, [postRepository]);
 
     const loadMorePosts = () => {
         setLoading(true);
@@ -64,6 +58,15 @@ const App = ({ authService, postRepository, imageUploader }) => {
         return () => stopSync();
     };
 
+    const createPost = (post, userId) => {
+        setPosts(posts => {
+            const updatedPosts = { ...posts };
+            updatedPosts[post.id] = post;
+            return updatedPosts;
+        });
+        postRepository.savePost(post, userId);
+    };
+
     const deletePost = (postId, userId, fileId) => {
         setPosts(posts => {
             const updatedPosts = { ...posts };
@@ -71,25 +74,8 @@ const App = ({ authService, postRepository, imageUploader }) => {
             return updatedPosts;
         });
 
-        setMyPosts(posts => {
-            const updatedPosts = { ...posts };
-            delete updatedPosts[postId];
-            return updatedPosts;
-        });
-
         fileId && imageUploader.delete(fileId);
         postRepository.removePost(postId, userId);
-    };
-
-    //Auth
-    useEffect(() => {
-        authService.onAuthChange(user => {
-            setUser(user);
-        });
-    }, [authService, user]);
-
-    const handleUser = user => {
-        setUser(user);
     };
 
     return (
@@ -102,7 +88,6 @@ const App = ({ authService, postRepository, imageUploader }) => {
                         <Feeds
                             loading={loading}
                             user={user}
-                            myPosts={myPosts}
                             posts={posts}
                             loadMorePosts={loadMorePosts}
                             deletePost={deletePost}
@@ -120,29 +105,19 @@ const App = ({ authService, postRepository, imageUploader }) => {
                     }
                 />
                 <Route
-                    path="/my"
+                    path="/my/*"
                     element={
                         <MyPage
                             authService={authService}
                             user={user}
-                            myPosts={myPosts}
+                            postRepository={postRepository}
+                            deletePost={deletePost}
                         />
-                    }
-                />
-                <Route
-                    path="/my/feeds"
-                    element={
-                        <MyFeeds user={user} postRepository={postRepository} />
                     }
                 />
                 <Route
                     path="/login"
-                    element={
-                        <Login
-                            authService={authService}
-                            handleUser={handleUser}
-                        />
-                    }
+                    element={<Login authService={authService} />}
                 />
                 <Route
                     path="/signup"
