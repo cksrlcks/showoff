@@ -1,10 +1,11 @@
 const path = require("path");
+const paths = require("./paths");
 const dotenv = require("dotenv");
 const Dotenv = require("dotenv-webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const paths = require("./paths");
+
 dotenv.config();
 
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
             patterns: [
                 {
                     from: paths.public + "/assets",
-                    to: "assets",
+                    //to: "assets",
                     globOptions: {
                         ignore: ["*.DS_Store"] //mac 메타데이터 파일 무시
                     },
@@ -50,14 +51,23 @@ module.exports = {
 
         new HtmlWebpackPlugin({
             template: paths.public + "/index.html",
-            filename: "index.html"
+            filename: "index.html",
+            templateParameters: {
+                description:
+                  'showoff',
+                keywords:
+                  'showoff',
+                title: 'showoff',
+                url: 'https://show-off.netlify.app'
+              }
         }),
 
         //전역변수 설정
         new Dotenv({
             path: path.join(__dirname, ".env"),
             systemvars: true
-        })
+        }),
+
     ],
 
     // import시 alias설정 (별명)

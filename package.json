@@ -7,6 +7,7 @@
         "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js"
     },
     "dependencies": {
+        "add-asset-html-webpack-plugin": "^5.0.2",
         "axios": "^0.24.0",
         "browser-image-compression": "^1.0.17",
         "firebase": "^9.6.1",
@@ -46,6 +47,7 @@
         "webpack-cli": "^4.9.1",
         "webpack-dev-server": "^4.0.0",
         "webpack-merge": "^5.8.0",
-        "workbox-webpack-plugin": "^6.4.2"
+        "webpack-pwa-manifest": "^4.3.0",
+        "workbox-webpack-plugin": "^6.5.3"
     }
 }
