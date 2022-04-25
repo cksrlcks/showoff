@@ -45,7 +45,15 @@ module.exports = {
                         ignore: ["*.DS_Store"]
                     },
                     noErrorOnMissing: true
-                }
+                },
+                {
+                    from: paths.public + "/firebase-messaging-sw.js",
+                    to: ".",
+                    globOptions: {
+                        ignore: ["*.DS_Store"]
+                    },
+                    noErrorOnMissing: true
+                },
             ]
         }),
 
@@ -54,12 +62,12 @@ module.exports = {
             filename: "index.html",
             templateParameters: {
                 description:
-                  'showoff',
+                    'showoff',
                 keywords:
-                  'showoff',
+                    'showoff',
                 title: 'showoff',
                 url: 'https://show-off.netlify.app'
-              }
+            }
         }),
 
         //전역변수 설정
