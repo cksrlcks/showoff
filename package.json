@@ -8,6 +8,7 @@
         "pwa": "cross-env NODE_ENV=production webpack -c config/pwa.js"
     },
     "dependencies": {
+        "@firebase/messaging": "^0.9.12",
         "add-asset-html-webpack-plugin": "^5.0.2",
         "axios": "^0.24.0",
         "browser-image-compression": "^1.0.17",

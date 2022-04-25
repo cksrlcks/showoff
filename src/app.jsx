@@ -9,7 +9,7 @@ import SignUp from "./components/signUp";
 import ResetPassword from "./components/resetPassword";
 import Welcome from "./components/welcome";
 
-const App = ({ authService, postRepository, imageUploader }) => {
+const App = ({ authService, postRepository, imageUploader, fcm }) => {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState({});
     const [loading, setLoading] = useState(true);
