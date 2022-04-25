@@ -11,6 +11,7 @@ const config = {
     appId: "1:785253429681:web:fc8f416f3ec2264435cd90"
 };
 firebase.initializeApp(config)
+
 const messaging = firebase.messaging();
 messaging.onMessage((payload) => {
     console.log('Message received. ', payload);
