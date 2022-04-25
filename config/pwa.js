@@ -11,7 +11,8 @@ module.exports = merge(prod, {
     new AddAssetHtmlPlugin({ filepath: `${paths.public}/sw-reg.js` }),
     new GenerateSW({
       clientsClaim: true,
-      skipWaiting: true
+      skipWaiting: true,
+      exclude : [/_redirects/]
     })
   ]
 })
