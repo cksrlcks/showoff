@@ -10,22 +10,17 @@ import ResetPassword from "./components/resetPassword";
 import Welcome from "./components/welcome";
 import Toast from "./components/toast";
 
-const App = ({ authService, postRepository, imageUploader, pushMessageSerivce }) => {
+const App = ({
+    authService,
+    postRepository,
+    imageUploader,
+    pushMessageSerivce
+}) => {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState({});
     const [loading, setLoading] = useState(true);
     const [push, setPush] = useState(null);
-    const [toast, setToast] = useState(false)
-
-    pushMessageSerivce.onMessageListener().then(payload => {
-        console.log(payload)
-        setPush({ title: payload.notification.title, body: payload.notification.body })
-        setToast(true)
-    }).catch(err => console.log('faied: ', err));
-
-    const handleToast = () => {
-        setToast(prev => !prev)
-    }
+    const [toast, setToast] = useState(false);
 
     //Auth & my posts count
     useEffect(() => {
@@ -37,7 +32,14 @@ const App = ({ authService, postRepository, imageUploader, pushMessageSerivce })
             }
 
             stopSync = postRepository.getUserData(user.uid, posts => {
-                setUser({ ...user, myPostsLength: Object.keys(posts).length });
+                if (posts) {
+                    setUser({
+                        ...user,
+                        myPostsLength: Object.keys(posts).length
+                    });
+                } else {
+                    setUser({ ...user, myPostsLength: 0 });
+                }
             });
         });
 
@@ -89,6 +91,22 @@ const App = ({ authService, postRepository, imageUploader, pushMessageSerivce })
 
         fileId && imageUploader.delete(fileId);
         postRepository.removePost(postId, userId);
+    };
+
+    //firebase cloud message
+    pushMessageSerivce
+        .onMessageListener()
+        .then(payload => {
+            //console.log(payload)
+            setPush({
+                title: payload.notification.title,
+                body: payload.notification.body
+            });
+            setToast(true);
+        })
+        .catch(err => console.log("faied: ", err));
+    const handleToast = () => {
+        setToast(prev => !prev);
     };
 
     return (
