@@ -40,7 +40,7 @@ const Feeds = ({ loading, user, posts, loadMorePosts, deletePost }) => {
             {loading && <LoadingSpinner />}
             {!loading && !user && <AskLogin />}
             {!loading && emptyList && <EmptyPosts />}
-            {!loading && firstWrite && <FirstWrite user={user} />}
+            {!loading && firstWrite && user && <FirstWrite user={user} />}
             {Object.keys(posts)
                 .sort()
                 .reverse()
